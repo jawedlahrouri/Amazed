@@ -16,6 +16,14 @@ void flag_h(void)
         " an executable in the Virtual Machine.\n");
 }
 
+link_t *create_link(int data)
+{
+    link_t *node = malloc(sizeof(link_t *));
+
+    node->data = data;
+    node->next = NULL;
+}
+
 int main(int argc, char **argv)
 {
     if (argc <= 1) {

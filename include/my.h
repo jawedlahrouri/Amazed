@@ -7,13 +7,17 @@
 
 #ifndef MY_H_
     #define MY_H_
-#include <stdint.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+    #include <stdint.h>
+    #include <stdio.h>
+    #include <unistd.h>
+    #include <stdlib.h>
+    #include <string.h>
 
 /*Struct*/
+typedef struct link {
+    int data;
+    struct link *next;
+} link_t;
 
 /*Function*/
 int main(int argc, char **argv);
