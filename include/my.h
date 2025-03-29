@@ -19,6 +19,28 @@ typedef struct link {
     struct link *next;
 } link_t;
 
+typedef struct way {
+    int first_room;
+    int second_room;
+} way_t;
+
+typedef struct matrice {
+    int **matrice_link;
+    way_t **tab_link;
+    int nb_room;
+} matrice_t;
+
+typedef struct room {
+    int *start;
+    int *rooms;
+    int *end;
+} room_t;
+
 /*Function*/
+
+// matrice handling
+void print_matrice(matrice_t *matrice, int nb_room);
+matrice_t *def_matrice(way_t **tab, int nb_room);
+
 int main(int argc, char **argv);
 #endif /* !MY_H_ */

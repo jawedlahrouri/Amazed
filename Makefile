@@ -15,7 +15,11 @@ NC=\033[0m # No Color
 # Variables
 NAME = amazed
 CFLAGS = -g -Wall -Wextra -W -Iinclude -Ilib/include -fdiagnostics-color=always
-SRC =	./src/main.c \
+MATRICE_PATH	=	./src/matrice
+SRC_PATH	=	./src
+
+SRC =	$(MATRICE_PATH)/define_matrice.c \
+		$(SRC_PATH)/main.c \
 
 OBJ = $(SRC:.c=.o)
 LIBMY = libmy.a
