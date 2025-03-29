@@ -1,0 +1,4 @@
+*.o
+amazed
+libmy.a
+.vscode

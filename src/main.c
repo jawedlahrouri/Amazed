@@ -16,19 +16,24 @@ void flag_h(void)
         " an executable in the Virtual Machine.\n");
 }
 
-link_t *create_link(int data)
-{
-    link_t *node = malloc(sizeof(link_t *));
-
-    node->data = data;
-    node->next = NULL;
-}
-
 int main(int argc, char **argv)
 {
     if (argc <= 1) {
-        my_printf("Usage: ./asm file_name[.s] ....\n");
         return 84;
     }
-    return 84;
+    way_t link1 = {1, 0};
+    way_t link2 = {3, 2};
+    way_t link3 = {0, 4};
+    way_t link4 = {1, 3};
+    way_t *tab[] = {&link1, &link2, &link3, &link4, NULL};
+    matrice_t *matrice = def_matrice(tab, 5);
+    if (!matrice) {
+        return 84;
+    }
+    print_matrice(matrice, 4);
+    for (int i = 0; i < 5; i++)
+        free(matrice->matrice_link[i]);
+    free(matrice->matrice_link);
+    free(matrice);
+    return 0;
 }
