@@ -21,6 +21,9 @@ int main(int argc, char **argv)
     if (argc <= 1) {
         return 84;
     }
+
+// test matrice d'adjascence
+
     way_t link1 = {1, 0};
     way_t link2 = {3, 2};
     way_t link3 = {0, 4};
@@ -30,10 +33,29 @@ int main(int argc, char **argv)
     if (!matrice) {
         return 84;
     }
-    print_matrice(matrice, 4);
+    print_matrice(matrice);
+
+    // test queue robot
+
+    queue_t queue;
+    init_queue(&queue, 10);
+    robot_t r1 = {1, 2};
+    robot_t r2 = {2, 6};
+    robot_t r3 = {3, 1};
+    enqueue(&queue, &r1);
+    enqueue(&queue, &r2);
+    enqueue(&queue, &r3);
+    robot_t *r;
+    while ((r = dequeue(&queue)) != NULL) {
+        printf("Robot %d in room %d\n", r->id, r->room);
+    }
+    free(queue.items);
     for (int i = 0; i < 5; i++)
         free(matrice->matrice_link[i]);
     free(matrice->matrice_link);
     free(matrice);
     return 0;
 }
+
+
+
