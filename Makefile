@@ -16,9 +16,13 @@ NC=\033[0m # No Color
 NAME = amazed
 CFLAGS = -g -Wall -Wextra -W -Iinclude -Ilib/include -fdiagnostics-color=always
 MATRICE_PATH	=	./src/matrice
+QUEUE_PATH	=	./src/queue_handle
 SRC_PATH	=	./src
-
-SRC =	$(MATRICE_PATH)/define_matrice.c \
+# $(QUEUE_PATH)/queue.c
+SRC =	$(MATRICE_PATH)/def_matrice.c \
+		$(MATRICE_PATH)/matrice.c \
+		$(QUEUE_PATH)/queue.c \
+		$(SRC_PATH)/linked_list_path.c \
 		$(SRC_PATH)/main.c \
 
 OBJ = $(SRC:.c=.o)

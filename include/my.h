@@ -14,10 +14,12 @@
     #include <string.h>
 
 /*Struct*/
-typedef struct link {
-    int data;
-    struct link *next;
-} link_t;
+
+typedef struct valid_path {
+    int nb_link;
+    char **node;
+    struct valid_path *next;
+} valid_path_t;
 
 typedef struct way {
     int first_room;
@@ -36,11 +38,36 @@ typedef struct room {
     int *end;
 } room_t;
 
+typedef struct robot {
+    int id;
+    int room;
+} robot_t;
+
+typedef struct queue {
+    robot_t **items;
+    int last_add;
+    int first_add;
+    int nb_robot_max;
+} queue_t;
+
 /*Function*/
 
 // matrice handling
-void print_matrice(matrice_t *matrice, int nb_room);
+void print_matrice(matrice_t *matrice);
 matrice_t *def_matrice(way_t **tab, int nb_room);
+int fill_matrice(matrice_t *matrice);
+void free_matrice(matrice_t *matrice, int nb_room);
+
+// queue handling
+void init_queue(queue_t *queue, int nb_robot);
+void enqueue(queue_t *queue, robot_t *robot);
+robot_t *dequeue(queue_t *queue);
+
+//linked list
+valid_path_t *add_node(valid_path_t *head, char **tab_node, int nb_link);
+void print_list(valid_path_t *head);
+valid_path_t *def_linked_list(char **tab_node, int nb_link);
+void free_list(valid_path_t *head);
 
 int main(int argc, char **argv);
 #endif /* !MY_H_ */
