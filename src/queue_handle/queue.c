@@ -6,47 +6,82 @@
 */
 
 #include "my.h"
+#include "lib.h"
 
-void init_queue(queue_t *queue, int nb_robot)
+// function for print the queue (file)
+void print_queue(queue_t *queue)
 {
-    queue->items = malloc(sizeof(robot_t *) * nb_robot);
-    if (queue->items == NULL) {
-        perror("malloc failed");
-        exit(1);
+    for (int i = 0; i < queue->nb_node && queue->items[i] != NULL; i++) {
+        my_printf("value : %s\n", queue->items[i]->id);
     }
-    queue->first_add = -1;
-    queue->last_add = -1;
-    queue->nb_robot_max = nb_robot;
+    if (queue->first_add)
+        my_printf("value first add : %s\n", queue->first_add);
+    if (queue->last_add)
+        my_printf("value last add: %s\n", queue->last_add);
 }
 
-void enqueue(queue_t *queue, robot_t *robot)
+// function for get the size of the queue (malloc and loop on it)
+int get_size_queue(queue_t *queue)
 {
-    if (queue->last_add == queue->nb_robot_max - 1) {
-        printf("Queue is full!\n");
+    int i = 0;
+
+    if (!queue || !queue->items)
+        return 0;
+    while (i < queue->nb_node && queue->items[i] != NULL) {
+        i++;
+    }
+    return i;
+}
+
+// function for init the queue before use it (in main for exemple)
+void init_queue(queue_t *queue, int nb_node)
+{
+    if (nb_node <= 0) {
+        queue->items = NULL;
+        queue->nb_node = 0;
         return;
     }
-    if (queue->first_add == -1) {
-        queue->first_add = 0;
-        queue->last_add = 0;
-    } else {
-        queue->last_add++;
+    queue->items = malloc(sizeof(node_t *) * nb_node);
+    if (!queue->items) {
+        return;
     }
-    queue->items[queue->last_add] = robot;
+    for (int i = 0; i < nb_node; i++)
+        queue->items[i] = NULL;
+    queue->first_add = NULL;
+    queue->last_add = NULL;
+    queue->nb_node = nb_node;
 }
 
-robot_t *dequeue(queue_t *queue)
+// function for add an item in the queue (item = node_t)
+void enqueue(queue_t *queue, node_t *node)
 {
-    robot_t *item = malloc(sizeof(robot_t));
+    int size = get_size_queue(queue);
 
-    if (queue->first_add == -1 || queue->first_add > queue->last_add)
-        return NULL;
-    if (item == NULL)
-        return NULL;
-    item = queue->items[queue->first_add];
-    queue->first_add++;
-    if (queue->first_add > queue->last_add) {
-        queue->first_add = -1;
-        queue->last_add = -1;
+    if (size >= queue->nb_node) {
+        return;
     }
+    queue->items[size] = node;
+    queue->last_add = node->id;
+    if (!queue->first_add) {
+        queue->first_add = node->id;
+    }
+}
+
+// function for remove an item from the queue (the first add)
+node_t *dequeue(queue_t *queue)
+{
+    int size = get_size_queue(queue);
+    node_t *item = malloc(sizeof(node_t));
+
+    if (!item)
+        return NULL;
+    if (!queue->first_add) {
+        return NULL;
+    }
+    if (size == 0)
+        return NULL;
+    item = queue->items[size - 1];
+    queue->items[size - 1] = NULL;
+    queue->first_add = (size > 1) ? queue->items[size - 2]->id : NULL;
     return item;
 }

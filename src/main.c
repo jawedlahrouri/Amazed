@@ -16,14 +16,39 @@ void flag_h(void)
         " an executable in the Virtual Machine.\n");
 }
 
+void print_tab(char **tab)
+{
+    for (int i = 0; tab[i] != NULL; i++) {
+        printf("value : %s\n", tab[i]);
+    }
+}
+
 int main(int argc, char **argv)
 {
     if (argc <= 1) {
         return 84;
     }
+    int i = 0;
 
 // test matrice d'adjascence
 
+    room_t *rooms = malloc(sizeof(room_t));
+    rooms->start = malloc(sizeof(char *)* 30);
+    rooms->rooms = malloc(sizeof(char *)* 30);
+    rooms->end = malloc(sizeof(char *)* 30);
+    rooms->start[0] = "0";
+    rooms->start[1] = NULL;
+    while (i < 3) {
+        rooms->rooms[i] = "str";
+        i++;
+    }
+    rooms->rooms[3] = NULL;
+    rooms->end[0] = "3";
+    rooms->end[1] = NULL;
+
+    // print_tab(rooms->start);
+    // print_tab(rooms->rooms);
+    // print_tab(rooms->end);
     way_t link1 = {1, 0};
     way_t link2 = {3, 2};
     way_t link3 = {0, 4};
@@ -37,19 +62,16 @@ int main(int argc, char **argv)
 
     // test queue robot
 
-    queue_t queue;
-    init_queue(&queue, 10);
-    robot_t r1 = {1, 2};
-    robot_t r2 = {2, 6};
-    robot_t r3 = {3, 1};
-    enqueue(&queue, &r1);
-    enqueue(&queue, &r2);
-    enqueue(&queue, &r3);
-    robot_t *r;
-    while ((r = dequeue(&queue)) != NULL) {
-        printf("Robot %d in room %d\n", r->id, r->room);
-    }
-    free(queue.items);
+    queue_t *queue = malloc(sizeof(queue_t));
+    init_queue(queue, 5);
+    def_queue(rooms, queue);
+    // printf("value last add: %s\n", queue->last_add);
+    // printf("item 0 : %s\n", queue->items[0]->id);
+    print_queue(queue);
+    node_t *r;
+    r = dequeue(queue);
+    printf("dequeue node : id : %s, is_start %i, is_end : %i\n", r->id, r->is_start, r->is_end);
+    free(queue->items);
     for (int i = 0; i < 5; i++)
         free(matrice->matrice_link[i]);
     free(matrice->matrice_link);

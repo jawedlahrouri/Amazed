@@ -22,6 +22,7 @@ SRC_PATH	=	./src
 SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(MATRICE_PATH)/matrice.c \
 		$(QUEUE_PATH)/queue.c \
+		$(QUEUE_PATH)/def_queue.c \
 		$(SRC_PATH)/linked_list_path.c \
 		$(SRC_PATH)/main.c \
 
