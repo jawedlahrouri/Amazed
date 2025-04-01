@@ -33,9 +33,9 @@ typedef struct matrice {
 } matrice_t;
 
 typedef struct room {
-    int *start;
-    int *rooms;
-    int *end;
+    char **start;
+    char **rooms;
+    char **end;
 } room_t;
 
 typedef struct robot {
@@ -43,11 +43,17 @@ typedef struct robot {
     int room;
 } robot_t;
 
+typedef struct node {
+    char *id;
+    int is_start;
+    int is_end;
+} node_t;
+
 typedef struct queue {
-    robot_t **items;
-    int last_add;
-    int first_add;
-    int nb_robot_max;
+    node_t **items;
+    char *last_add;
+    char *first_add;
+    int nb_node;
 } queue_t;
 
 /*Function*/
@@ -60,8 +66,10 @@ void free_matrice(matrice_t *matrice, int nb_room);
 
 // queue handling
 void init_queue(queue_t *queue, int nb_robot);
-void enqueue(queue_t *queue, robot_t *robot);
-robot_t *dequeue(queue_t *queue);
+void enqueue(queue_t *queue, node_t *node);
+node_t *dequeue(queue_t *queue);
+void print_queue(queue_t *queue);
+void def_queue(room_t *rooms, queue_t *queue);
 
 //linked list
 valid_path_t *add_node(valid_path_t *head, char **tab_node, int nb_link);
