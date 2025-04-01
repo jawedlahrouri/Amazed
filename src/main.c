@@ -28,56 +28,59 @@ int main(int argc, char **argv)
     if (argc <= 1) {
         return 84;
     }
-    int i = 0;
 
-// test matrice d'adjascence
-
+    // Initialisation des salles
     room_t *rooms = malloc(sizeof(room_t));
-    rooms->start = malloc(sizeof(char *)* 30);
-    rooms->rooms = malloc(sizeof(char *)* 30);
-    rooms->end = malloc(sizeof(char *)* 30);
+    rooms->start = malloc(sizeof(char *) * 30);
+    rooms->rooms = malloc(sizeof(char *) * 30);
+    rooms->end = malloc(sizeof(char *) * 30);
     rooms->start[0] = "0";
     rooms->start[1] = NULL;
-    while (i < 3) {
-        rooms->rooms[i] = "str";
-        i++;
-    }
-    rooms->rooms[3] = NULL;
+    rooms->rooms[0] = "1";
+    rooms->rooms[1] = "2";
+    rooms->rooms[2] = NULL;
     rooms->end[0] = "3";
     rooms->end[1] = NULL;
 
-    // print_tab(rooms->start);
-    // print_tab(rooms->rooms);
-    // print_tab(rooms->end);
-    way_t link1 = {1, 0};
-    way_t link2 = {3, 2};
-    way_t link3 = {0, 4};
-    way_t link4 = {1, 3};
-    way_t *tab[] = {&link1, &link2, &link3, &link4, NULL};
-    matrice_t *matrice = def_matrice(tab, 5);
+    // Définition des liens (edges)
+    way_t link1 = {0, 1};
+    way_t link2 = {1, 2};
+    way_t link3 = {2, 3};
+    way_t *tab[] = {&link1, &link2, &link3, NULL};
+
+    // Création de la matrice d'adjacence
+    matrice_t *matrice = def_matrice(tab, 4);
     if (!matrice) {
         return 84;
     }
-    print_matrice(matrice);
 
-    // test queue robot
+    print_matrice(matrice);  // Affiche la matrice d'adjacence pour vérification
 
+    // Initialisation de la queue et utilisation de def_queue
     queue_t *queue = malloc(sizeof(queue_t));
-    init_queue(queue, 5);
-    def_queue(rooms, queue);
-    // printf("value last add: %s\n", queue->last_add);
-    // printf("item 0 : %s\n", queue->items[0]->id);
-    print_queue(queue);
-    node_t *r;
-    r = dequeue(queue);
-    printf("dequeue node : id : %s, is_start %i, is_end : %i\n", r->id, r->is_start, r->is_end);
+    if (!queue)
+        return 84;
+
+    init_queue(queue, 4);
+    def_queue(rooms, queue);  // Utilisation de ta fonction pour remplir la queue
+
+    // Exécution de BFS
+    int start = 0;  // Noeud de départ
+    int found = bfs(4, rooms, matrice, start, queue);
+
+    if (found)
+        printf("Chemin trouvé !\n");
+    else
+        printf("Aucun chemin trouvé.\n");
+
+    // Libération de la mémoire
     free(queue->items);
-    for (int i = 0; i < 5; i++)
-        free(matrice->matrice_link[i]);
-    free(matrice->matrice_link);
-    free(matrice);
+    free(queue);
+    free_matrice(matrice, 4);
+    free(rooms->start);
+    free(rooms->rooms);
+    free(rooms->end);
+    free(rooms);
+
     return 0;
 }
-
-
-

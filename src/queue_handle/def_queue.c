@@ -9,7 +9,7 @@
 #include "lib.h"
 
 // function for create the item (node_t) for each room
-static node_t *get_node(char *id_node, int is_special_node)
+node_t *get_node(char *id_node, int is_special_node)
 {
     node_t *node = malloc(sizeof(node_t));
 
