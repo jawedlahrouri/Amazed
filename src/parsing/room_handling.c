@@ -8,15 +8,15 @@
 #include "lib.h"
 #include "my.h"
 
-static int validate_room_data(char **tab, int *position)
+static char *validate_room_data(char **tab, char *id)
 {
     if (!tab || !tab[0] || !tab[1] || !tab[2] || tab[3])
-        return 84;
+        return NULL;
     if (!my_str_isnum(tab[0]) || !my_str_isnum(tab[1]) ||
         !my_str_isnum(tab[2]))
-        return 84;
-    *position = my_getnbr(tab[0]);
-    return 0;
+        return NULL;
+    id = my_strdup(tab[0]);
+    return id;
 }
 
 static int parse_room_position(FILE *file, int *position)
@@ -25,7 +25,7 @@ static int parse_room_position(FILE *file, int *position)
     ssize_t read;
     char *next_line = NULL;
     char **tab = NULL;
-    int result;
+    char *result;
 
     read = getline(&next_line, &len, file);
     if (read == -1 || next_line == NULL)
