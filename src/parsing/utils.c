@@ -47,6 +47,7 @@ static matrice_t *init_matrice(void)
 
 maze_t *init_maze(void)
 {
+    printf("-------------------init maze---------------------\n");
     maze_t *maze = malloc(sizeof(maze_t));
 
     if (!maze)

@@ -31,15 +31,16 @@ static void calculate_max_room(maze_t *maze)
 {
     int max_room_id = 0;
 
-    for (int i = 0; maze->room->rooms && maze->room->rooms[i] != 0; i++) {
-        if (maze->room->rooms[i] > max_room_id)
-            max_room_id = maze->room->rooms[i];
+    for (int i = 0; maze->room->rooms[i] != NULL; i++) {
+        max_room_id += 1;
     }
-    maze->matrice->nb_room = max_room_id + 1;
+    maze->matrice->nb_room = max_room_id + 2;
+    printf("nb_room : %i\n", maze->matrice->nb_room);
 }
 
 static maze_t *process_opened_file(FILE *file)
 {
+    printf("dans la fonction process_opened_file 2eme fonction de parse\n");
     maze_t *maze = init_maze();
 
     if (!maze)
@@ -58,11 +59,15 @@ static maze_t *process_opened_file(FILE *file)
 
 maze_t *collect_maze_data(char *filename)
 {
+    printf("dans la fonction parsing\n");
+    printf("filename: %s\n", filename);
     FILE *file = fopen(filename, "r");
     maze_t *maze = NULL;
 
-    if (!file)
+    if (!file) {
+        printf("lol le file est pas valide\n");
         return NULL;
+    }
     maze = process_opened_file(file);
     fclose(file);
     return maze;

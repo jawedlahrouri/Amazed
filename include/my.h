@@ -24,8 +24,8 @@ typedef struct valid_path {
 } valid_path_t;
 
 typedef struct way {
-    int first_room;
-    int second_room;
+    char *first_room;
+    char *second_room;
 } way_t;
 
 typedef struct matrice {
@@ -34,10 +34,17 @@ typedef struct matrice {
     int nb_room;
 } matrice_t;
 
+typedef struct node {
+    char *id;
+    int is_start;
+    int is_end;
+    int idx;
+} node_t;
+
 typedef struct room {
-    char **start;
-    char **rooms;
-    char **end;
+    node_t *start;
+    node_t **rooms;
+    node_t *end;
     int nb_rooms;
 } room_t;
 
@@ -45,13 +52,6 @@ typedef struct robot {
     int id;
     int room;
 } robot_t;
-
-typedef struct node {
-    char *id;
-    int is_start;
-    int is_end;
-    int idx;
-} node_t;
 
 typedef struct queue {
     node_t **items;

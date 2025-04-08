@@ -60,6 +60,7 @@ LIB =	./my_compute_power_rec.c\
 	./my_memset.c\
 	./my_str_isnum.c\
 	./my_strtok_array.c\
+	./print_tab.c\
 
 OBJ_LIB  	=	 $(LIB:.c=.o)
 

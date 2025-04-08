@@ -16,6 +16,7 @@ static int add_room(maze_t *maze, char **tab, int *room_index)
         !my_str_isnum(tab[2])) {
         return 84;
     }
+    print_tab(tab);
     room_id = my_getnbr(tab[0]);
     maze->room->rooms = realloc(maze->room->rooms,
         sizeof(int) * (*room_index + 2));

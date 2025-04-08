@@ -29,6 +29,8 @@ int main(int argc, char **argv)
         return 84;
     }
 
+    collect_maze_data(argv[1]);
+
     // Initialisation des salles
     room_t *rooms = malloc(sizeof(room_t));
     if (!rooms)

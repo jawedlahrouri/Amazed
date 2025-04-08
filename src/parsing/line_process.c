@@ -8,6 +8,11 @@
 #include "lib.h"
 #include "my.h"
 
+// int get_start_room(maze_t *maze, char *line, FILE *file)
+// {
+
+// }
+
 int find_room_type(maze_t *maze, char *line, FILE *file)
 {
     if (!maze || !line || !file)
@@ -16,8 +21,11 @@ int find_room_type(maze_t *maze, char *line, FILE *file)
         line++;
     if (*line == '\0')
         return 0;
-    if (my_strcmp(line, "##start") == 0)
+    if (my_strcmp(line, "##start") == 0) {
+        // get_start_room(maze, line, file);
+        // return 1;
         return attribute_start(maze, file, line);
+    }
     if (my_strcmp(line, "##end") == 0)
         return attribute_end(maze, file, line);
     return new_room(maze, file, line);
@@ -25,6 +33,7 @@ int find_room_type(maze_t *maze, char *line, FILE *file)
 
 int process_first_line(maze_t *maze, FILE *file)
 {
+    printf("lol dans process line\n");
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
