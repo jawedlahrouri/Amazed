@@ -60,6 +60,7 @@ char *my_strtok(char *str, const char *delim);
 char *extract_str(char const *str, char separator);
 char *extract_str_advanced(char *str, char separator1, char separator2);
 char **my_copy_word_in_array(char **tab);
+char **my_strtok_array(char *str, const char *sep);
 
 // Fonctions utilitaires
 void my_swap(int *a, int *b);

@@ -18,12 +18,18 @@ CFLAGS = -g -Wall -Wextra -W -Iinclude -Ilib/include -fdiagnostics-color=always
 MATRICE_PATH	=	./src/matrice
 QUEUE_PATH	=	./src/queue_handle
 SRC_PATH	=	./src
+PARSING_PATH	=	./src/parsing
 # $(QUEUE_PATH)/queue.c
 SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(MATRICE_PATH)/matrice.c \
 		$(QUEUE_PATH)/queue.c \
 		$(SRC_PATH)/linked_list_path.c \
 		$(SRC_PATH)/main.c \
+		$(PARSING_PATH)/line_process.c \
+		$(PARSING_PATH)/parsing.c \
+		$(PARSING_PATH)/utils.c \
+		$(PARSING_PATH)/link_handling.c \
+		$(PARSING_PATH)/room_handling.c \
 
 OBJ = $(SRC:.c=.o)
 LIBMY = libmy.a

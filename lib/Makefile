@@ -56,7 +56,9 @@ LIB =	./my_compute_power_rec.c\
 	./my_atoi.c\
 	./my_isalpha.c\
 	./my_strncat.c\
-	./my_isdigit.c
+	./my_isdigit.c\
+	./my_str_isnum.c\
+	./my_strtok_array.c\
 
 OBJ_LIB  	=	 $(LIB:.c=.o)
 
