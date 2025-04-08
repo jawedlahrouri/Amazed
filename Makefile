@@ -23,6 +23,7 @@ PARSING_PATH	=	./src/parsing
 SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(MATRICE_PATH)/matrice.c \
 		$(QUEUE_PATH)/queue.c \
+		$(QUEUE_PATH)/def_queue.c \
 		$(SRC_PATH)/linked_list_path.c \
 		$(SRC_PATH)/main.c \
 		$(PARSING_PATH)/line_process.c \
