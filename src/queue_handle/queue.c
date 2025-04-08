@@ -5,8 +5,15 @@
 ** queue.c
 */
 
+#include <stdbool.h>
 #include "my.h"
 #include "lib.h"
+
+// si la queue est vide return true
+bool is_empty(queue_t *queue)
+{
+    return queue->nb_node == 0;
+}
 
 // function for print the queue (file)
 void print_queue(queue_t *queue)
