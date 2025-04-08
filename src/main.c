@@ -28,56 +28,70 @@ int main(int argc, char **argv)
     if (argc <= 1) {
         return 84;
     }
-    int i = 0;
 
-// test matrice d'adjascence
-
+    // Initialisation des salles
     room_t *rooms = malloc(sizeof(room_t));
-    rooms->start = malloc(sizeof(char *)* 30);
-    rooms->rooms = malloc(sizeof(char *)* 30);
-    rooms->end = malloc(sizeof(char *)* 30);
-    rooms->start[0] = "0";
-    rooms->start[1] = NULL;
-    while (i < 3) {
-        rooms->rooms[i] = "str";
-        i++;
-    }
-    rooms->rooms[3] = NULL;
-    rooms->end[0] = "3";
-    rooms->end[1] = NULL;
+    if (!rooms)
+        return 84;
 
-    // print_tab(rooms->start);
-    // print_tab(rooms->rooms);
-    // print_tab(rooms->end);
-    way_t link1 = {1, 0};
-    way_t link2 = {3, 2};
-    way_t link3 = {0, 4};
-    way_t link4 = {1, 3};
-    way_t *tab[] = {&link1, &link2, &link3, &link4, NULL};
-    matrice_t *matrice = def_matrice(tab, 5);
+    rooms->start = malloc(sizeof(node_t *) * 2);
+    rooms->rooms = malloc(sizeof(node_t *) * 3);
+    rooms->end = malloc(sizeof(node_t *) * 2);
+    if (!rooms->start || !rooms->rooms || !rooms->end)
+        return 84;
+
+    rooms->start[0] = "0"; rooms->start[1] = NULL;
+    rooms->rooms[0] = "1"; rooms->rooms[1] = "2"; rooms->rooms[2] = NULL;
+    rooms->end[0] = "3"; rooms->end[1] = NULL;
+    rooms->nb_rooms = 4;  // Mise à jour du nombre de salles
+
+    // Définition des connexions entre les salles (graph)
+    way_t link1 = {0, 1};
+    way_t link2 = {1, 2};
+    way_t link3 = {2, 3};
+    way_t *tab[] = {&link1, &link2, &link3, NULL};
+
+    // Création de la matrice d'adjacence
+    matrice_t *matrice = def_matrice(tab, rooms->nb_rooms);
     if (!matrice) {
+        free(rooms);
         return 84;
     }
+
+    // Affichage de la matrice pour debug
     print_matrice(matrice);
 
-    // test queue robot
-
+    // Création de la file pour BFS
     queue_t *queue = malloc(sizeof(queue_t));
-    init_queue(queue, 5);
-    def_queue(rooms, queue);
-    // printf("value last add: %s\n", queue->last_add);
-    // printf("item 0 : %s\n", queue->items[0]->id);
-    print_queue(queue);
-    node_t *r;
-    r = dequeue(queue);
-    printf("dequeue node : id : %s, is_start %i, is_end : %i\n", r->id, r->is_start, r->is_end);
+    if (!queue) {
+        free_matrice(matrice, rooms->nb_rooms);
+        free(rooms);
+        return 84;
+    }
+
+    init_queue(queue, rooms->nb_rooms);
+    def_queue(rooms, queue);  // Remplissage de la queue
+
+    // Exécution de BFS
+    node_t *start_node = malloc(sizeof(node_t));  // Départ (index 0)
+    node_t *end_node = malloc(sizeof(node_t));    // Arrivée (index 3)
+
+    start_node  = def_node("0", 1, 0);
+    end_node    = def_node("3", 0, 1);
+    int found = bfs(start_node, end_node, rooms, matrice);
+    if (found)
+        printf("Chemin trouvé !\n");
+    else
+        printf("Aucun chemin trouvé.\n");
+
+    // Nettoyage mémoire
     free(queue->items);
-    for (int i = 0; i < 5; i++)
-        free(matrice->matrice_link[i]);
-    free(matrice->matrice_link);
-    free(matrice);
+    free(queue);
+    free_matrice(matrice, rooms->nb_rooms);
+    free(rooms->start);
+    free(rooms->rooms);
+    free(rooms->end);
+    free(rooms);
+
     return 0;
 }
-
-
-

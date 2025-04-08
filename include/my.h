@@ -12,7 +12,9 @@
     #include <unistd.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <stdbool.h>
 
+    #define MAX_PATH 100
 /*Struct*/
 
 typedef struct valid_path {
@@ -36,6 +38,7 @@ typedef struct room {
     char **start;
     char **rooms;
     char **end;
+    int nb_rooms;
 } room_t;
 
 typedef struct robot {
@@ -47,6 +50,7 @@ typedef struct node {
     char *id;
     int is_start;
     int is_end;
+    int idx;
 } node_t;
 
 typedef struct queue {
@@ -71,17 +75,25 @@ int fill_matrice(matrice_t *matrice);
 void free_matrice(matrice_t *matrice, int nb_room);
 
 // queue handling
-void init_queue(queue_t *queue, int nb_robot);
+void init_queue(queue_t *queue, int nb_node);
 void enqueue(queue_t *queue, node_t *node);
 node_t *dequeue(queue_t *queue);
 void print_queue(queue_t *queue);
 void def_queue(room_t *rooms, queue_t *queue);
+node_t *get_node(char *id_node, int is_special_node);
+int get_size_queue(queue_t *queue);
+bool is_empty(queue_t *queue);
 
 //linked list
 valid_path_t *add_node(valid_path_t *head, char **tab_node, int nb_link);
 void print_list(valid_path_t *head);
 valid_path_t *def_linked_list(char **tab_node, int nb_link);
 void free_list(valid_path_t *head);
+
+//algorithm
+int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice);
+int is_connect(node_t *node1, node_t *node2, matrice_t *matrice);
+node_t *def_node(char *id, int is_start, int is_end);
 
 //parsing
 maze_t *collect_maze_data(char *filename);
