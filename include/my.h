@@ -60,6 +60,12 @@ typedef struct queue {
     int nb_node;
 } queue_t;
 
+typedef struct maze {
+    matrice_t *matrice;
+    room_t *room;
+    int nb_robots;
+} maze_t;
+
 /*Function*/
 
 // matrice handling
@@ -88,6 +94,17 @@ void free_list(valid_path_t *head);
 int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice);
 int is_connect(node_t *node1, node_t *node2, matrice_t *matrice);
 node_t *def_node(char *id, int is_start, int is_end);
+
+//parsing
+maze_t *collect_maze_data(char *filename);
+maze_t *init_maze(void);
+int process_first_line(maze_t *maze, FILE *file);
+void cleanup_maze(maze_t *maze);
+int find_room_type(maze_t *maze, char *line, FILE *file);
+int attribute_start(maze_t *maze, FILE *file, char *line);
+int attribute_end(maze_t *maze, FILE *file, char *line);
+int new_room(maze_t *maze, FILE *file, char *line);
+int my_getbot(const char *str);
 
 int main(int argc, char **argv);
 #endif /* !MY_H_ */
