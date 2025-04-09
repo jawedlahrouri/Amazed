@@ -34,33 +34,33 @@ int main(int argc, char **argv)
     if (!rooms)
         return 84;
 
-    rooms->start = malloc(sizeof(node_t *) * 2);
+    // def of rooms struct
     rooms->rooms = malloc(sizeof(node_t *) * 3);
-    rooms->end = malloc(sizeof(node_t *) * 2);
-    if (!rooms->start || !rooms->rooms || !rooms->end)
+
+    if (!rooms->rooms)
         return 84;
 
-    rooms->start[0] = "0"; rooms->start[1] = NULL;
-    rooms->rooms[0] = "1"; rooms->rooms[1] = "2"; rooms->rooms[2] = NULL;
-    rooms->end[0] = "3"; rooms->end[1] = NULL;
-    rooms->nb_rooms = 4;  // Mise à jour du nombre de salles
+    rooms->start = def_node("0", 1, 0);
+    rooms->rooms[0] = def_node("1", 0, 0);
+    rooms->rooms[1] = def_node("2", 0, 0);
+    rooms->rooms[2] = NULL;
+    rooms->end = def_node("3", 0, 1);
+    rooms->nb_rooms = 4;
 
-    // Définition des connexions entre les salles (graph)
+    // def de la struct way_t
     way_t link1 = {0, 1};
     way_t link2 = {1, 2};
     way_t link3 = {2, 3};
     way_t *tab[] = {&link1, &link2, &link3, NULL};
 
-    // Création de la matrice d'adjacence
     matrice_t *matrice = def_matrice(tab, rooms->nb_rooms);
     if (!matrice) {
         free(rooms);
         return 84;
     }
 
-    // Affichage de la matrice pour debug
     print_matrice(matrice);
-
+    // ------------------------------ bon ----------------------------
     // Création de la file pour BFS
     queue_t *queue = malloc(sizeof(queue_t));
     if (!queue) {
@@ -70,21 +70,21 @@ int main(int argc, char **argv)
     }
 
     init_queue(queue, rooms->nb_rooms);
-    def_queue(rooms, queue);  // Remplissage de la queue
-
-    // Exécution de BFS
-    node_t *start_node = malloc(sizeof(node_t));  // Départ (index 0)
-    node_t *end_node = malloc(sizeof(node_t));    // Arrivée (index 3)
-
-    start_node  = def_node("0", 1, 0);
-    end_node    = def_node("3", 0, 1);
-    int found = bfs(start_node, end_node, rooms, matrice);
+    def_queue(rooms, queue);
+    // print_queue(queue); // issue here 
+    if (!queue) {
+        printf("lol la queue est vide comme l'air\n");
+    }
+    if (queue)
+        printf("la ya mais bon\n");
+    print_queue(queue);
+    int found = bfs(rooms->start, rooms->end, rooms, matrice);
     if (found)
         printf("Chemin trouvé !\n");
     else
         printf("Aucun chemin trouvé.\n");
 
-    // Nettoyage mémoire
+
     free(queue->items);
     free(queue);
     free_matrice(matrice, rooms->nb_rooms);

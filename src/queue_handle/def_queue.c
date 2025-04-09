@@ -28,18 +28,13 @@ node_t *get_node(char *id_node, int is_special_node)
 // function for def the queue with all the rooms
 void def_queue(room_t *rooms, queue_t *queue)
 {
-    node_t *node = NULL;
-
-    for (int i = 0; rooms->start[i] != NULL; i++) {
-        node = get_node(rooms->start[i], 1);
-        enqueue(queue, node);
-    }
+    enqueue(queue, rooms->start);
+    printf("id : %s\n", rooms->start->id);
     for (int i = 0; rooms->rooms[i] != NULL; i++) {
-        node = get_node(rooms->rooms[i], 0);
-        enqueue(queue, node);
+        printf("id : %s\n", rooms->rooms[i]->id);
+        enqueue(queue, rooms->rooms[i]);
     }
-    for (int i = 0; rooms->end[i] != NULL; i++) {
-        node = get_node(rooms->end[i], 1);
-        enqueue(queue, node);
-    }
+    enqueue(queue, rooms->end);
+    printf("id : %s\n", rooms->end->id);
+    print_queue(queue);
 }

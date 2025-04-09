@@ -32,11 +32,6 @@ SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(PATH_FILE)/find_path.c \
 		$(UTILITIES_FILE)/is_connect.c \
 		$(SRC_PATH)/linked_list_path.c \
-		$(PARSING_PATH)/line_process.c \
-		$(PARSING_PATH)/parsing.c \
-		$(PARSING_PATH)/utils.c \
-		$(PARSING_PATH)/link_handling.c \
-		$(PARSING_PATH)/room_handling.c \
 		$(SRC_PATH)/main.c
 
 OBJ = $(SRC:.c=.o)
