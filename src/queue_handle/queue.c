@@ -18,6 +18,11 @@ bool is_empty(queue_t *queue)
 // function for print the queue (file)
 void print_queue(queue_t *queue)
 {
+    if (!queue) {
+        printf("lol pas de queue a print\n");
+        return;
+    }
+    printf("lol dans print queue\n");
     for (int i = 0; i < queue->nb_node && queue->items[i] != NULL; i++) {
         my_printf("value : %s\n", queue->items[i]->id);
     }
@@ -48,11 +53,11 @@ void init_queue(queue_t *queue, int nb_node)
         queue->nb_node = 0;
         return;
     }
-    queue->items = malloc(sizeof(node_t *) * nb_node);
+    queue->items = malloc(sizeof(node_t *) * (nb_node + 1));
     if (!queue->items) {
         return;
     }
-    for (int i = 0; i < nb_node; i++)
+    for (int i = 0; i < nb_node + 1; i++)
         queue->items[i] = NULL;
     queue->first_add = NULL;
     queue->last_add = NULL;
@@ -77,18 +82,20 @@ void enqueue(queue_t *queue, node_t *node)
 // function for remove an item from the queue (the first add)
 node_t *dequeue(queue_t *queue)
 {
-    int size = get_size_queue(queue);
-    node_t *item = malloc(sizeof(node_t));
+    if (!queue || !queue->first_add || get_size_queue(queue) == 0)
+        return NULL;
 
-    if (!item)
-        return NULL;
-    if (!queue->first_add) {
-        return NULL;
+    for (int i = 0; queue->items[i] != NULL; i++) {
+        if (strcmp(queue->items[i]->id, queue->first_add) == 0) {
+            node_t *item = queue->items[i];
+            if (queue->items[i + 1] != NULL)
+                queue->first_add = queue->items[i + 1]->id;
+            else
+                queue->first_add = NULL;
+
+            return item;
+        }
     }
-    if (size == 0)
-        return NULL;
-    item = queue->items[size - 1];
-    queue->items[size - 1] = NULL;
-    queue->first_add = (size > 1) ? queue->items[size - 2]->id : NULL;
-    return item;
+
+    return NULL;
 }
