@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
     // def de la struct way_t
     way_t link1 = {0, 1};
-    way_t link2 = {1, 2};
+    way_t link2 = {1, 3};
     way_t link3 = {2, 3};
     way_t *tab[] = {&link1, &link2, &link3, NULL};
 
@@ -83,8 +83,6 @@ int main(int argc, char **argv)
         printf("Chemin trouvé !\n");
     else
         printf("Aucun chemin trouvé.\n");
-
-
     free(queue->items);
     free(queue);
     free_matrice(matrice, rooms->nb_rooms);
@@ -92,6 +90,5 @@ int main(int argc, char **argv)
     free(rooms->rooms);
     free(rooms->end);
     free(rooms);
-
     return 0;
 }

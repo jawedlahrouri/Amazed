@@ -8,6 +8,12 @@
 #include "my.h"
 #include "lib.h"
 
+// si la queue est vide return true
+bool is_empty(queue_t *queue)
+{
+    return !queue || queue->size == 0;
+}
+
 // function for create the item (node_t) for each room
 node_t *get_node(char *id_node, int is_special_node)
 {
