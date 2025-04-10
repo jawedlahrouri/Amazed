@@ -38,19 +38,15 @@ int print_room(maze_t *maze)
 {
     if (!maze)
         return 84;
-    
     my_printf("#rooms\n");
-    
     for (int i = 0; i < maze->room->nb_rooms; i++) {
-        if (maze->room->start->idx == i) {
+        if (maze->room->start->idx == i)
             print_start_room(maze->room->start);
-        } else if (maze->room->end->idx == i) {
+        if (maze->room->end->idx == i)
             print_end_room(maze->room->end);
-        } else {
+        else
             print_regular_rooms(maze, i);
-        }
     }
-    
     return 0;
 }
 
