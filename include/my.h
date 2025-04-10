@@ -113,6 +113,7 @@ node_t *create_node(char *id, char *second_id, char *third_id, int idx);
 way_t *create_way(char *first, char *second);
 void free_way(way_t *way);
 int init_room_array(maze_t *maze);
+int display_parsing(maze_t *maze);
 
 int main(int argc, char **argv);
 #endif /* !MY_H_ */

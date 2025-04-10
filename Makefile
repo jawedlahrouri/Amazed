@@ -22,6 +22,7 @@ QUEUE_PATH	=	./src/queue_handle
 SRC_PATH	=	./src
 PATH_FILE	=	./src/path
 PARSING_PATH	=	./src/parsing
+DISPLAY_PATH = ./src/display
 
 # $(QUEUE_PATH)/queue.c
 SRC =	$(MATRICE_PATH)/def_matrice.c \
@@ -36,6 +37,7 @@ SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(PARSING_PATH)/utils.c \
 		$(PARSING_PATH)/utils_node.c \
 		$(PARSING_PATH)/clean_maze.c \
+		$(DISPLAY_PATH)/display.c \
 		$(SRC_PATH)/main.c
 
 OBJ = $(SRC:.c=.o)
