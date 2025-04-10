@@ -8,27 +8,49 @@
 #include "my.h"
 #include "lib.h"
 
+static void print_single_room(node_t *room)
+{
+    my_printf("%s %s %s\n", room->id, room->second_id, room->third_id);
+}
+
+static void print_start_room(node_t *start)
+{
+    my_printf("##start\n");
+    print_single_room(start);
+}
+
+static void print_end_room(node_t *end)
+{
+    my_printf("##end\n");
+    print_single_room(end);
+}
+
+static void print_regular_rooms(maze_t *maze, int index)
+{
+    for (int j = 0; maze->room->rooms[j] != NULL; j++) {
+        if (maze->room->rooms[j]->idx == index) {
+            print_single_room(maze->room->rooms[j]);
+        }
+    }
+}
+
 int print_room(maze_t *maze)
 {
     if (!maze)
         return 84;
+    
     my_printf("#rooms\n");
+    
     for (int i = 0; i < maze->room->nb_rooms; i++) {
         if (maze->room->start->idx == i) {
-            my_printf("##start\n%s %s %s",maze->room->start->id,
-                maze->room->start->second_id, maze->room->start->third_id);
+            print_start_room(maze->room->start);
         } else if (maze->room->end->idx == i) {
-            my_printf("##end\n%s %s %s\n",maze->room->end->id,
-                maze->room->end->second_id, maze->room->end->third_id);
-        }
-        for (int j = 0; maze->room->rooms[j] != NULL; j++) {
-            if (maze->room->rooms[j]->idx == i) {
-                my_printf("%s %s %s\n", maze->room->rooms[j]->id,
-                maze->room->rooms[j]->second_id,
-                maze->room->rooms[j]->third_id);
-            }
+            print_end_room(maze->room->end);
+        } else {
+            print_regular_rooms(maze, i);
         }
     }
+    
     return 0;
 }
 
