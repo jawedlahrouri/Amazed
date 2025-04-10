@@ -30,6 +30,8 @@ SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(QUEUE_PATH)/queue.c \
 		$(QUEUE_PATH)/def_queue.c \
 		$(PATH_FILE)/find_path.c \
+		$(PATH_FILE)/solve.c \
+		$(UTILITIES_FILE)/is_connect.c \
 		$(SRC_PATH)/linked_list_path.c \
 		$(PARSING_PATH)/line_process.c \
 		$(PARSING_PATH)/parsing.c \
