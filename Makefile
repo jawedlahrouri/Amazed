@@ -21,7 +21,6 @@ MATRICE_PATH	=	./src/matrice
 QUEUE_PATH	=	./src/queue_handle
 SRC_PATH	=	./src
 PATH_FILE	=	./src/path
-UTILITIES_FILE	=	./src/Utilities
 PARSING_PATH	=	./src/parsing
 
 # $(QUEUE_PATH)/queue.c
@@ -30,8 +29,13 @@ SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(QUEUE_PATH)/queue.c \
 		$(QUEUE_PATH)/def_queue.c \
 		$(PATH_FILE)/find_path.c \
-		$(UTILITIES_FILE)/is_connect.c \
 		$(SRC_PATH)/linked_list_path.c \
+		$(PARSING_PATH)/line_process.c \
+		$(PARSING_PATH)/parsing.c \
+		$(PARSING_PATH)/room_handling.c \
+		$(PARSING_PATH)/utils.c \
+		$(PARSING_PATH)/utils_node.c \
+		$(PARSING_PATH)/clean_maze.c \
 		$(SRC_PATH)/main.c
 
 OBJ = $(SRC:.c=.o)

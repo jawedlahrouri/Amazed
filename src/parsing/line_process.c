@@ -1,73 +1,54 @@
 /*
-** EPITECH PROJECT, 2025
+** EPITECH PROJECT, 2024
 ** amazed
 ** File description:
-** process file lines
+** process line for parsing
 */
 
-#include "lib.h"
 #include "my.h"
+#include "lib.h"
 
-// int get_start_room(maze_t *maze, char *line, FILE *file)
-// {
-
-// }
-
-int find_room_type(maze_t *maze, char *line, FILE *file)
+int process_file_lines(maze_t *maze, FILE *file)
 {
-    if (!maze || !line || !file)
-        return 84;
-    while (*line && (*line == ' ' || *line == '\t' || *line == '\n'))
-        line++;
-    if (*line == '\0')
-        return 0;
-    if (my_strcmp(line, "##start") == 0) {
-        // get_start_room(maze, line, file);
-        // return 1;
-        return attribute_start(maze, file, line);
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read = getline(&line, &len, file);
+    int idx = 0;
+
+    for (; read != -1; read = getline(&line, &len, file)) {
+        if (read > 0 && line[read - 1] == '\n')
+            line[read - 1] = '\0';
+        if (line[0] == '\0')
+            continue;
+        if (find_room_type(maze, line, file, idx) == 84) {
+            free(line);
+            return 84;
+        }
+        idx++;
     }
-    if (my_strcmp(line, "##end") == 0)
-        return attribute_end(maze, file, line);
-    return new_room(maze, file, line);
+    free(line);
+    return 0;
 }
 
 int process_first_line(maze_t *maze, FILE *file)
 {
-    printf("lol dans process line\n");
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
 
     read = getline(&line, &len, file);
     if (read == -1 || line == NULL) {
-        free(line);
+        if (line)
+            free(line);
         return 84;
     }
-    if (line && line[0] != '\0')
-        maze->nb_robots = my_getbot(line);
+    if (read > 0 && line[read - 1] == '\n')
+        line[read - 1] = '\0';
+    if (line && line[0] != '\0' && my_str_isnum(line)) {
+        maze->nb_robots = my_atoi(line);
+        free(line);
+        return 0;
+    }
     free(line);
-    return 0;
-}
-
-void cleanup_maze(maze_t *maze)
-{
-    if (!maze)
-        return;
-    if (maze->room && maze->room->rooms)
-        free(maze->room->rooms);
-    if (maze->matrice && maze->matrice->tab_link) {
-        for (int i = 0; maze->matrice->tab_link[i] != NULL; i++)
-            free(maze->matrice->tab_link[i]);
-        free(maze->matrice->tab_link);
-    }
-    if (maze->matrice && maze->matrice->matrice_link) {
-        for (int i = 0; i < maze->matrice->nb_room; i++)
-            free(maze->matrice->matrice_link[i]);
-        free(maze->matrice->matrice_link);
-    }
-    if (maze->matrice)
-        free(maze->matrice);
-    if (maze->room)
-        free(maze->room);
-    free(maze);
+    return 84;
 }
