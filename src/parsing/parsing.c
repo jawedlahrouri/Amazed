@@ -2,40 +2,22 @@
 ** EPITECH PROJECT, 2025
 ** amazed
 ** File description:
-** open the file for extract data
+** parse file
 */
 
-#include "lib.h"
 #include "my.h"
-
-static int process_file_lines(maze_t *maze, FILE *file)
-{
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-
-    read = getline(&line, &len, file);
-    for (; read != -1; read = getline(&line, &len, file)) {
-        if (read > 0 && line[read - 1] == '\n')
-            line[read - 1] = '\0';
-        if (find_room_type(maze, line, file) == 84) {
-            free(line);
-            return 84;
-        }
-    }
-    free(line);
-    return 0;
-}
+#include "lib.h"
 
 static void calculate_max_room(maze_t *maze)
 {
     int max_room_id = 0;
 
-    for (int i = 0; maze->room->rooms && maze->room->rooms[i] != 0; i++) {
-        if (maze->room->rooms[i] > max_room_id)
-            max_room_id = maze->room->rooms[i];
-    }
-    maze->matrice->nb_room = max_room_id + 1;
+    if (!maze->room->rooms)
+        return;
+    for (int i = 0; maze->room->rooms[i] != NULL; i++)
+        max_room_id += 1;
+    maze->room->nb_rooms = max_room_id + 2;
+    maze->matrice->nb_room = maze->room->nb_rooms;
 }
 
 static maze_t *process_opened_file(FILE *file)

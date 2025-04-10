@@ -24,8 +24,8 @@ typedef struct valid_path {
 } valid_path_t;
 
 typedef struct way {
-    int first_room;
-    int second_room;
+    char *first_room;
+    char *second_room;
 } way_t;
 
 typedef struct matrice {
@@ -34,10 +34,19 @@ typedef struct matrice {
     int nb_room;
 } matrice_t;
 
+typedef struct node {
+    char *id;
+    int is_start;
+    int is_end;
+    int idx;
+    char *second_id;
+    char *third_id;
+} node_t;
+
 typedef struct room {
-    char **start;
-    char **rooms;
-    char **end;
+    node_t *start;
+    node_t **rooms;
+    node_t *end;
     int nb_rooms;
 } room_t;
 
@@ -45,13 +54,6 @@ typedef struct robot {
     int id;
     int room;
 } robot_t;
-
-typedef struct node {
-    char *id;
-    int is_start;
-    int is_end;
-    int idx;
-} node_t;
 
 typedef struct queue {
     node_t **items;
@@ -100,11 +102,18 @@ maze_t *collect_maze_data(char *filename);
 maze_t *init_maze(void);
 int process_first_line(maze_t *maze, FILE *file);
 void cleanup_maze(maze_t *maze);
-int find_room_type(maze_t *maze, char *line, FILE *file);
-int attribute_start(maze_t *maze, FILE *file, char *line);
-int attribute_end(maze_t *maze, FILE *file, char *line);
-int new_room(maze_t *maze, FILE *file, char *line);
+int find_room_type(maze_t *maze, char *line, FILE *file, int idx);
+node_t *attribute_start(FILE *file, char *line, int idx);
+node_t *attribute_end(FILE *file, char *line, int idx);
+int new_room(maze_t *maze, char *line, int idx);
 int my_getbot(const char *str);
+void free_node(node_t *node);
+int process_file_lines(maze_t *maze, FILE *file);
+node_t *create_node(char *id, char *second_id, char *third_id, int idx);
+way_t *create_way(char *first, char *second);
+void free_way(way_t *way);
+int init_room_array(maze_t *maze);
+int display_parsing(maze_t *maze);
 
 int main(int argc, char **argv);
 #endif /* !MY_H_ */

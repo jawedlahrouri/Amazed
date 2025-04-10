@@ -15,6 +15,7 @@
 node_t *def_node(char *id, int is_start, int is_end)
 {
     static int i = 0;
+    printf("static before incrementation : %i\n", i);
     node_t *node = malloc(sizeof(node_t));
 
     if (!id || !node)
@@ -28,30 +29,36 @@ node_t *def_node(char *id, int is_start, int is_end)
     if (is_end == 1)
         node->is_end = 1;
     else
-        node->is_end = 1;
+        node->is_end = 0;
+    i++;
+    printf("static after incrementation : %i\n", i);
     return node;
 }
 
 node_t **get_room_tab(room_t *room, matrice_t *matrice)
 {
+    // for (int i = 0; room->rooms[i] != NULL; i++) {
+    //     printf("id : %s\nis_start : %i\nis_end : %i\nidx : %i\n", room->rooms[i]->id, room->rooms[i]->is_start, room->rooms[i]->is_end, room->rooms[i]->idx);
+    // }
+    // print_matrice(matrice);
     node_t **tab = malloc(sizeof(node_t *) * (matrice->nb_room + 1));
     int index = 0;
 
     if (!tab)
         return NULL;
-    for (int i = 0; room->start[i] != NULL; i++) {
-        tab[index] = def_node(room->start[i], 1, 0);
-        index++;
-    }
+    tab[index] = room->start;
+    index++;
     for (int i = 0; room->rooms[i] != NULL; i++) {
-        tab[index] = def_node(room->rooms[i], 0, 0);
+        tab[index] = room->rooms[i];
         index++;
     }
-    for (int i = 0; room->end[i] != NULL; i++) {
-        tab[index] = def_node(room->end[i], 0, 1);
-        index++;
-    }
+    tab[index] = room->end;
+    index++;
     tab[index] = NULL;
+    // for (int i = 0; tab[i] != NULL; i++) {
+    //     printf("------------------\n");
+    //     printf("id : %s\nis_start : %i\nis_end : %i\nidx : %i\n", tab[i]->id, tab[i]->is_start, tab[i]->is_end, tab[i]->idx);
+    // }
     return tab;
 }
 
@@ -63,7 +70,7 @@ node_t **def_room(room_t *rooms)
     if (!node_tab)
         return NULL;
     for (int y = 0; rooms->rooms[y] != NULL; y++) {
-        node_tab[i]->id = rooms->rooms[y];
+        node_tab[i] = rooms->rooms[y];
         i++;
     }
     node_tab[i] = NULL;
@@ -72,20 +79,34 @@ node_t **def_room(room_t *rooms)
 
 node_t **get_neighbours(node_t *node, matrice_t *matrice, node_t **tab)
 {
+    printf("-------------------------loooool------------------\n");
     node_t **neighbours = malloc(sizeof(node_t *) * (matrice->nb_room + 1));
-    node_t *new_node = malloc(sizeof(node_t));
+    node_t *new_node = NULL;
     int index = 0;
 
-    if (!neighbours)
+    if (!neighbours) {
+        printf("dans le if de neighbours\n");
         return NULL;
+    }
+    for (int i = 0; tab[i] != NULL; i++) {
+        printf("tab[i] id = %s\n", tab[i]->id);
+    }
     for (int i = 0; i < matrice->nb_room; i++) {
         new_node = tab[i];
-        if (is_connect(node, new_node, matrice)) {
+        printf("new_node id : %s\n", new_node->id);
+        printf("node id : %s\n", node->id);
+        if (is_connect(node, new_node, matrice) == 0) {
             neighbours[index] = new_node;
             index++;
         }
     }
+    printf("%i\n", index);
     neighbours[index] = NULL;
+    if (neighbours[0] == NULL)
+        printf("bah wsh c une folie ca !\n");
+    for (int i = 0; neighbours[i] != NULL; i++) {
+        printf("id : %s\ni = %i\n", neighbours[i]->id, i);
+    }
     return neighbours;
 }
 
@@ -122,35 +143,45 @@ void print_path(node_t **path)
 
 node_t **solve(room_t *rooms, node_t *start, matrice_t *matrice)
 {
-    queue_t *queue = malloc(sizeof(queue_t));
-    if (!queue)
+    printf("---------------------------solve---------------------------\n");
+    queue_t *queue = malloc(sizeof(queue_t)); // queue def but already one fill
+    if (!queue) {
+        printf("dans le premier if de solve\n");
         return NULL;
-    if (!rooms || !matrice)
+    }
+    if (!rooms || !matrice) {
+        printf("dans le seconde if de solve\n");
         return NULL;
-    node_t **node_tab = get_room_tab(rooms, matrice);
-    def_queue(rooms, queue);
+    }
+    printf("no error in solve\n");
+    node_t **node_tab = get_room_tab(rooms, matrice); // bon tab
+    init_queue(queue, matrice->nb_room);
+    //def_queue(rooms, queue);
     enqueue(queue, start);
-
+    printf("last_in : %s\n first_in : %s\n", queue->last_add, queue->first_add);
+    // printf("------------------looooooool-------------------\n");
+    // print_queue(queue);
+    printf("-----------------------ici c bon---------------------\n");
+    //enqueue(queue, start);
     bool *visited = malloc(sizeof(bool) * (rooms->nb_rooms + 1));
     memset(visited, 0, sizeof(bool) * (rooms->nb_rooms + 1));
-    
     node_t **prev = malloc(sizeof(node_t *) * (rooms->nb_rooms + 1));
     memset(prev, 0, sizeof(node_t *) * (rooms->nb_rooms + 1));
-
     visited[start->idx] = true;
-
     while (!is_empty(queue)) {
         node_t *node = dequeue(queue);
-        node_t **neighbours = get_neighbours(node, matrice, node_tab);
-
-        for (int next = 0; neighbours[next] != NULL; next++) {
-            if (!visited[neighbours[next]->idx]) {
-                enqueue(queue, neighbours[next]);
-                visited[neighbours[next]->idx] = true;
-                prev[neighbours[next]->idx] = node;
+        if (node) {
+            node_t **neighbours = get_neighbours(node, matrice, node_tab);
+            
+            for (int i = 0; neighbours[i] != NULL; i++) {
+                if (!visited[neighbours[i]->idx]) {
+                    enqueue(queue, neighbours[i]);
+                    visited[neighbours[i]->idx] = true;
+                    prev[neighbours[i]->idx] = node;
+                }
             }
+            free(neighbours);
         }
-        free(neighbours);
     }
     free(visited);
     return prev;
@@ -158,8 +189,10 @@ node_t **solve(room_t *rooms, node_t *start, matrice_t *matrice)
 
 int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
 {
-    if (!matrice || !rooms || !start)
+    if (!matrice || !rooms || !start) {
+        printf("dans le premier if de bfs\n");
         return 0;
+    }
     node_t **prev = solve(rooms, start, matrice);
     if (!prev)
         return 0;
@@ -175,4 +208,3 @@ int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
     free(path);
     return path_length;
 }
-
