@@ -24,8 +24,8 @@ typedef struct valid_path {
 } valid_path_t;
 
 typedef struct way {
-    char *first_room;
-    char *second_room;
+    int first_room;
+    int second_room;
 } way_t;
 
 typedef struct matrice {
