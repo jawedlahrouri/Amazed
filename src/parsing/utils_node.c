@@ -40,32 +40,29 @@ node_t *create_node(char *id, char *second_id, char *third_id, int idx)
     return node;
 }
 
-way_t *create_way(char *first, char *second)
+way_t *create_way(char *src, char *dst)
 {
-    way_t *way = malloc(sizeof(way_t));
+    way_t *link = malloc(sizeof(way_t));
+    int first = my_atoi(src);
+    int second = my_atoi(dst);
 
-    if (!way)
-        return NULL;
-    way->first_room = my_strdup(first);
-    way->second_room = my_strdup(second);
-    if (!way->first_room || !way->second_room) {
-        if (way->first_room)
-            free(way->first_room);
-        if (way->second_room)
-            free(way->second_room);
-        free(way);
+    if (!link) {
+        printf("malloc de link a échoué\n");
         return NULL;
     }
-    return way;
+    link->first_room = first;
+    link->second_room = second;
+    if (first < 0 || second < 0) {
+        printf("create_way: index négatif interdit\n");
+        free(link);
+        return NULL;
+    }
+    return link;
 }
 
 void free_way(way_t *way)
 {
     if (!way)
         return;
-    if (way->first_room)
-        free(way->first_room);
-    if (way->second_room)
-        free(way->second_room);
     free(way);
 }

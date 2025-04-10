@@ -56,7 +56,7 @@ int print_links(maze_t *maze)
         return 84;
     my_printf("#tunnels\n");
     for (int i = 0; maze->matrice->tab_link[i] != NULL; i++) {
-        my_printf("%s-%s\n", maze->matrice->tab_link[i]->first_room,
+        my_printf("%d-%d\n", maze->matrice->tab_link[i]->first_room,
             maze->matrice->tab_link[i]->second_room);
     }
     return 0;

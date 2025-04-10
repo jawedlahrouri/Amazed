@@ -4,6 +4,7 @@
 ## File description:
 ## Makefile
 ##
+
 # Colors
 RED=\033[0;31m
 GREEN=\033[0;32m
@@ -13,16 +14,17 @@ MAGENTA=\033[0;35m
 NC=\033[0m # No Color
 
 # Variables
-NAME = amazed
+NAME	= amazed
 
 CFLAGS = -g -Wall -Wextra -W -Iinclude -Ilib/include -fdiagnostics-color=always
 
 MATRICE_PATH	=	./src/matrice
-QUEUE_PATH	=	./src/queue_handle
-SRC_PATH	=	./src
-PATH_FILE	=	./src/path
+QUEUE_PATH		=	./src/queue_handle
+SRC_PATH		=	./src
+PATH_FILE		=	./src/path
 PARSING_PATH	=	./src/parsing
-DISPLAY_PATH = ./src/display
+DISPLAY_PATH	= ./src/display
+
 
 # $(QUEUE_PATH)/queue.c
 SRC =	$(MATRICE_PATH)/def_matrice.c \
@@ -30,6 +32,7 @@ SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(QUEUE_PATH)/queue.c \
 		$(QUEUE_PATH)/def_queue.c \
 		$(PATH_FILE)/find_path.c \
+		$(PATH_FILE)/solve.c \
 		$(SRC_PATH)/linked_list_path.c \
 		$(PARSING_PATH)/line_process.c \
 		$(PARSING_PATH)/parsing.c \

@@ -24,8 +24,8 @@ typedef struct valid_path {
 } valid_path_t;
 
 typedef struct way {
-    char *first_room;
-    char *second_room;
+    int first_room;
+    int second_room;
 } way_t;
 
 typedef struct matrice {
@@ -59,7 +59,8 @@ typedef struct queue {
     node_t **items;
     char *last_add;
     char *first_add;
-    int nb_node;
+    int capacity;
+    int size;
 } queue_t;
 
 typedef struct maze {
@@ -67,6 +68,13 @@ typedef struct maze {
     room_t *room;
     int nb_robots;
 } maze_t;
+
+typedef struct bfs_data_s {
+    bool *visited;
+    node_t **prev;
+    node_t **node_tab;
+    matrice_t *matrice;
+} bfs_data_t;
 
 /*Function*/
 
@@ -96,6 +104,9 @@ void free_list(valid_path_t *head);
 int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice);
 int is_connect(node_t *node1, node_t *node2, matrice_t *matrice);
 node_t *def_node(char *id, int is_start, int is_end);
+node_t **solve(room_t *rooms, node_t *start, matrice_t *matrice);
+node_t **get_neighbours(node_t *node, matrice_t *matrice, node_t **tab);
+node_t **get_room_tab(room_t *room, matrice_t *matrice);
 
 //parsing
 maze_t *collect_maze_data(char *filename);
