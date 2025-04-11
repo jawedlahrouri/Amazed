@@ -94,14 +94,14 @@ static int reconstruct_path(node_t *start, node_t *end, node_t **prev,
 void print_path(node_t **path)
 {
     if (path[0] == NULL) {
-        printf("Aucun chemin trouvé.\n");
+        my_printf("Aucun chemin trouvé.\n");
         return;
     }
-    printf("Chemin trouvé : ");
+    my_printf("Chemin trouvé : ");
     for (int i = 0; path[i] != NULL; i++) {
-        printf("%d ", path[i]->idx);
+        my_printf("%d ", path[i]->idx);
     }
-    printf("\n");
+    my_printf("\n");
 }
 
 int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
@@ -115,7 +115,6 @@ int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
     prev = solve(rooms, start, matrice);
     if (!prev)
         return 0;
-    print_path(prev);
     if (!path) {
         free(prev);
         return 0;

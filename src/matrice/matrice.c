@@ -15,9 +15,9 @@ void print_matrice(matrice_t *matrice)
     my_printf("Matrice d'adjacence :\n");
     for (int i = 0; i < matrice->nb_room; i++) {
         for (int j = 0; j < matrice->nb_room; j++) {
-            printf("%d ", matrice->matrice_link[i][j]);
+            my_printf("%d ", matrice->matrice_link[i][j]);
         }
-        printf("\n");
+        my_printf("\n");
     }
 }
 

@@ -35,12 +35,9 @@ node_t *get_node(char *id_node, int is_special_node)
 void def_queue(room_t *rooms, queue_t *queue)
 {
     enqueue(queue, rooms->start);
-    printf("id : %s\n", rooms->start->id);
     for (int i = 0; rooms->rooms[i] != NULL; i++) {
-        printf("id : %s\n", rooms->rooms[i]->id);
         enqueue(queue, rooms->rooms[i]);
     }
     enqueue(queue, rooms->end);
-    printf("id : %s\n", rooms->end->id);
     print_queue(queue);
 }

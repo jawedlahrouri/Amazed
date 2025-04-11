@@ -62,12 +62,24 @@ int print_links(maze_t *maze)
     return 0;
 }
 
+int print_way(room_t *rooms, matrice_t *matrice)
+{
+    int found = bfs(rooms->start, rooms->end, rooms, matrice);
+    if (found) {
+        return 0;
+    }
+    else
+        return 84;
+}
+
 int display_parsing(maze_t *maze)
 {
     my_printf("#number_of_robots\n%d\n", maze->nb_robots);
     if (print_room(maze) == 84)
         return 84;
     if (print_links(maze) == 84)
+        return 84;
+    if (print_way(maze->room, maze->matrice) == 84)
         return 84;
     return 0;
 }

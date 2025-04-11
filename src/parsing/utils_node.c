@@ -47,13 +47,12 @@ way_t *create_way(char *src, char *dst)
     int second = my_atoi(dst);
 
     if (!link) {
-        printf("malloc de link a échoué\n");
+        my_printf("malloc de link a échoué\n");
         return NULL;
     }
     link->first_room = first;
     link->second_room = second;
     if (first < 0 || second < 0) {
-        printf("create_way: index négatif interdit\n");
         free(link);
         return NULL;
     }

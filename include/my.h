@@ -32,6 +32,8 @@ typedef struct matrice {
     int **matrice_link;
     way_t **tab_link;
     int nb_room;
+    int link_count;
+    int link_capacity;
 } matrice_t;
 
 typedef struct node {
@@ -48,6 +50,7 @@ typedef struct room {
     node_t **rooms;
     node_t *end;
     int nb_rooms;
+    int capacity;
 } room_t;
 
 typedef struct robot {

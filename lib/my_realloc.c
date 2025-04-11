@@ -1,11 +1,12 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-CPE-110-LIL-1-1-settingup-joseph.birck
+** B-CPE-200-LIL-2-1-amazed-jawed.lahrouri
 ** File description:
 ** my_realloc.c
 */
 
 #include <stdlib.h>
+#include <string.h>
 
 void *my_realloc(void *ptr, size_t new_size)
 {
