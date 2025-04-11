@@ -64,19 +64,19 @@ int print_links(maze_t *maze)
 
 int print_way(room_t *rooms, matrice_t *matrice, int nb_robot)
 {
-    node_t **found = bfs(rooms->start, rooms->end, rooms, matrice);
+    graph_t graph = {
+        .rooms = rooms,
+        .matrice = matrice,
+        .nb_robots = nb_robot
+    };
+    node_t **found = bfs(rooms->start, rooms->end, &graph);
 
-    if (nb_robot == 0 || found == 0) {
+    if (nb_robot == 0 || found == NULL) {
         return 84;
     }
     print_path(found, nb_robot);
-    if (found) {
-        free(found);
-        return 0;
-    } else {
-        free(found);
-        return 84;
-    }
+    free(found);
+    return 0;
 }
 
 int display_parsing(maze_t *maze)

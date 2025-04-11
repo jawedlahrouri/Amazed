@@ -79,6 +79,20 @@ typedef struct bfs_data_s {
     matrice_t *matrice;
 } bfs_data_t;
 
+typedef struct bfs_init_s {
+    bfs_data_t *bfs_data;
+    queue_t **queue;
+    room_t *rooms;
+    matrice_t *matrice;
+    node_t *start;
+} bfs_init_t;
+
+typedef struct {
+    room_t *rooms;
+    matrice_t *matrice;
+    int nb_robots;
+} graph_t;
+
 /*Function*/
 
 // matrice handling
@@ -104,10 +118,10 @@ valid_path_t *def_linked_list(char **tab_node, int nb_link);
 void free_list(valid_path_t *head);
 
 //algorithm
-node_t **bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice);
+node_t **bfs(node_t *start, node_t *end, graph_t *graph);
 int is_connect(node_t *node1, node_t *node2, matrice_t *matrice);
 node_t *def_node(char *id, int is_start, int is_end);
-node_t **solve(room_t *rooms, node_t *start, matrice_t *matrice);
+int solve(room_t *rooms, node_t *start, matrice_t *matrice, node_t **prev);
 node_t **get_neighbours(node_t *node, matrice_t *matrice, node_t **tab);
 node_t **get_room_tab(room_t *room, matrice_t *matrice);
 void print_path(node_t **path, int nb_robot);
