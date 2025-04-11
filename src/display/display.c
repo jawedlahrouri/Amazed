@@ -71,7 +71,8 @@ int print_way(room_t *rooms, matrice_t *matrice, int nb_robot)
     };
     node_t **found = bfs(rooms->start, rooms->end, &graph);
 
-    if (nb_robot == 0 || found == NULL) {
+    if (nb_robot <= 0 || found == NULL) {
+        my_printf("There is no valid path from start to exit.\n");
         return 84;
     }
     print_path(found, nb_robot);

@@ -92,12 +92,12 @@ int new_room(maze_t *maze, char *line, int idx)
     return 84;
 }
 
-static char **read_room_line(FILE *file)
+static char **read_room_line(void)
 {
     size_t len = 0;
     char *next_line = NULL;
     char **tab = NULL;
-    ssize_t read = getline(&next_line, &len, file);
+    ssize_t read = getline(&next_line, &len, stdin);
 
     if (read == -1 || next_line == NULL) {
         if (next_line)
@@ -115,9 +115,9 @@ static char **read_room_line(FILE *file)
     return tab;
 }
 
-static node_t *parse_room_position(FILE *file)
+static node_t *parse_room_position(void)
 {
-    char **tab = read_room_line(file);
+    char **tab = read_room_line();
     node_t *room = NULL;
 
     if (!tab)
@@ -127,14 +127,14 @@ static node_t *parse_room_position(FILE *file)
     return room;
 }
 
-node_t *attribute_start(FILE *file, char *line, int idx)
+node_t *attribute_start(char *line, int idx)
 {
     static int start_count = 0;
     node_t *start = NULL;
 
-    if (!file || !line || my_strcmp(line, "##start") != 0 || start_count == 1)
+    if (!line || my_strcmp(line, "##start") != 0 || start_count == 1)
         return NULL;
-    start = parse_room_position(file);
+    start = parse_room_position();
     if (!start)
         return NULL;
     start->is_start = 1;
@@ -144,14 +144,14 @@ node_t *attribute_start(FILE *file, char *line, int idx)
     return start;
 }
 
-node_t *attribute_end(FILE *file, char *line, int idx)
+node_t *attribute_end(char *line, int idx)
 {
     static int end_count = 0;
     node_t *end = NULL;
 
-    if (!file || !line || my_strcmp(line, "##end") != 0 || end_count == 1)
+    if (!line || my_strcmp(line, "##end") != 0 || end_count == 1)
         return NULL;
-    end = parse_room_position(file);
+    end = parse_room_position();
     if (!end)
         return NULL;
     end->is_end = 1;
@@ -161,21 +161,21 @@ node_t *attribute_end(FILE *file, char *line, int idx)
     return end;
 }
 
-int find_room_type(maze_t *maze, char *line, FILE *file, int idx)
+int find_room_type(maze_t *maze, char *line, int idx)
 {
-    if (!maze || !line || !file)
+    if (!maze || !line)
         return 84;
     while (*line && (*line == ' ' || *line == '\t' || *line == '\n'))
         line++;
     if (*line == '\0')
         return 0;
     if (my_strcmp(line, "##start") == 0) {
-        maze->room->start = attribute_start(file, line, idx);
+        maze->room->start = attribute_start(line, idx);
         if (maze->room->start != NULL)
             return 0;
     }
     if (my_strcmp(line, "##end") == 0) {
-        maze->room->end = attribute_end(file, line, idx);
+        maze->room->end = attribute_end(line, idx);
         if (maze->room->end != NULL)
             return 0;
     }

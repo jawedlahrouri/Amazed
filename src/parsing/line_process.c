@@ -8,19 +8,19 @@
 #include "my.h"
 #include "lib.h"
 
-int process_file_lines(maze_t *maze, FILE *file)
+int process_file_lines(maze_t *maze)
 {
     char *line = NULL;
     size_t len = 0;
-    ssize_t read = getline(&line, &len, file);
+    ssize_t read = getline(&line, &len, stdin);
     int idx = 0;
 
-    for (; read != -1; read = getline(&line, &len, file)) {
+    for (; read != -1; read = getline(&line, &len, stdin)) {
         if (read > 0 && line[read - 1] == '\n')
             line[read - 1] = '\0';
         if (line[0] == '\0')
             continue;
-        if (find_room_type(maze, line, file, idx) == 84) {
+        if (find_room_type(maze, line, idx) == 84) {
             free(line);
             return 84;
         }
@@ -30,13 +30,13 @@ int process_file_lines(maze_t *maze, FILE *file)
     return 0;
 }
 
-int process_first_line(maze_t *maze, FILE *file)
+int process_first_line(maze_t *maze)
 {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
 
-    read = getline(&line, &len, file);
+    read = getline(&line, &len, stdin);
     if (read == -1 || line == NULL) {
         if (line)
             free(line);

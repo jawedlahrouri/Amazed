@@ -80,6 +80,8 @@ static int reconstruct_path(node_t *start, node_t *end, node_t **prev,
     for (node_t *at = end; at != NULL; at = prev[at->idx]) {
         temp[count] = at;
         count++;
+        if (count >= MAX_PATH)
+            return 0;
     }
     if (temp[count - 1] != start) {
         return 0;
@@ -110,7 +112,11 @@ node_t **bfs(node_t *start, node_t *end, graph_t *graph)
         free(path);
         return NULL;
     }
-    reconstruct_path(start, end, prev, path);
+    if (reconstruct_path(start, end, prev, path) == 0) {
+        free(prev);
+        free(path);
+        return NULL;
+    }
     free(prev);
     return path;
 }

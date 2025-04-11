@@ -17,19 +17,20 @@ void flag_h(void)
 int main(int argc, char **argv)
 {
     maze_t *maze = NULL;
+    int result = 0;
 
-    if (argc <= 1) {
+    (void)argv;
+    if (argc > 1) {
         flag_h();
         return 84;
     }
-    maze = collect_maze_data(argv[1]);
+    maze = collect_maze_data();
     if (!maze || !maze->matrice->tab_link || !maze->room->end ||
         !maze->room->start || !maze->room->rooms || maze->nb_robots <= 0)
         return 84;
     maze->matrice = def_matrice(maze->matrice->tab_link,
         maze->matrice->nb_room);
-    if (display_parsing(maze) == 84)
-        return 84;
+    result = display_parsing(maze);
     cleanup_maze(maze);
-    return 0;
+    return result;
 }

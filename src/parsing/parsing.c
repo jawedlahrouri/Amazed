@@ -20,17 +20,17 @@ static void calculate_max_room(maze_t *maze)
     maze->matrice->nb_room = maze->room->nb_rooms;
 }
 
-static maze_t *process_opened_file(FILE *file)
+static maze_t *process_opened_file(void)
 {
     maze_t *maze = init_maze();
 
     if (!maze)
         return NULL;
-    if (process_first_line(maze, file) == 84) {
+    if (process_first_line(maze) == 84) {
         cleanup_maze(maze);
         return NULL;
     }
-    if (process_file_lines(maze, file) == 84) {
+    if (process_file_lines(maze) == 84) {
         cleanup_maze(maze);
         return NULL;
     }
@@ -38,14 +38,10 @@ static maze_t *process_opened_file(FILE *file)
     return maze;
 }
 
-maze_t *collect_maze_data(char *filename)
+maze_t *collect_maze_data(void)
 {
-    FILE *file = fopen(filename, "r");
     maze_t *maze = NULL;
 
-    if (!file)
-        return NULL;
-    maze = process_opened_file(file);
-    fclose(file);
+    maze = process_opened_file();
     return maze;
 }

@@ -127,17 +127,17 @@ node_t **get_room_tab(room_t *room, matrice_t *matrice);
 void print_path(node_t **path, int nb_robot);
 
 //parsing
-maze_t *collect_maze_data(char *filename);
+maze_t *collect_maze_data(void);
 maze_t *init_maze(void);
-int process_first_line(maze_t *maze, FILE *file);
+int process_first_line(maze_t *maze);
 void cleanup_maze(maze_t *maze);
-int find_room_type(maze_t *maze, char *line, FILE *file, int idx);
-node_t *attribute_start(FILE *file, char *line, int idx);
-node_t *attribute_end(FILE *file, char *line, int idx);
+int find_room_type(maze_t *maze, char *line, int idx);
+node_t *attribute_start(char *line, int idx);
+node_t *attribute_end(char *line, int idx);
 int new_room(maze_t *maze, char *line, int idx);
 int my_getbot(const char *str);
 void free_node(node_t *node);
-int process_file_lines(maze_t *maze, FILE *file);
+int process_file_lines(maze_t *maze);
 node_t *create_node(char *id, char *second_id, char *third_id, int idx);
 way_t *create_way(char *first, char *second);
 void free_way(way_t *way);
