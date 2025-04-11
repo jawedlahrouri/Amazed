@@ -91,27 +91,14 @@ static int reconstruct_path(node_t *start, node_t *end, node_t **prev,
     return count;
 }
 
-void print_path(node_t **path)
-{
-    if (path[0] == NULL) {
-        my_printf("Aucun chemin trouvé.\n");
-        return;
-    }
-    my_printf("Chemin trouvé : ");
-    for (int i = 0; path[i] != NULL; i++) {
-        my_printf("%d ", path[i]->idx);
-    }
-    my_printf("\n");
-}
-
-int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
+node_t **bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
 {
     int path_length = 0;
     node_t **path = malloc(sizeof(node_t *) * (rooms->nb_rooms + 1));
     node_t **prev = NULL;
 
     if (!matrice || !rooms || !start || !path)
-        return 0;
+        return NULL;
     prev = solve(rooms, start, matrice);
     if (!prev)
         return 0;
@@ -120,8 +107,6 @@ int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
         return 0;
     }
     path_length = reconstruct_path(start, end, prev, path);
-    print_path(path);
     free(prev);
-    free(path);
-    return path_length;
+    return path;
 }

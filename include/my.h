@@ -104,12 +104,13 @@ valid_path_t *def_linked_list(char **tab_node, int nb_link);
 void free_list(valid_path_t *head);
 
 //algorithm
-int bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice);
+node_t **bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice);
 int is_connect(node_t *node1, node_t *node2, matrice_t *matrice);
 node_t *def_node(char *id, int is_start, int is_end);
 node_t **solve(room_t *rooms, node_t *start, matrice_t *matrice);
 node_t **get_neighbours(node_t *node, matrice_t *matrice, node_t **tab);
 node_t **get_room_tab(room_t *room, matrice_t *matrice);
+void print_path(node_t **path, int nb_robot);
 
 //parsing
 maze_t *collect_maze_data(char *filename);
