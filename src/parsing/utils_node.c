@@ -52,6 +52,8 @@ way_t *create_way(char *src, char *dst)
     }
     link->first_room = first;
     link->second_room = second;
+    link->first_name = my_strdup(src);
+    link->second_name = my_strdup(dst);
     if (first < 0 || second < 0) {
         free(link);
         return NULL;
