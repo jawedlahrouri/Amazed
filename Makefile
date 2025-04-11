@@ -41,6 +41,7 @@ SRC =	$(MATRICE_PATH)/def_matrice.c \
 		$(PARSING_PATH)/utils_node.c \
 		$(PARSING_PATH)/clean_maze.c \
 		$(DISPLAY_PATH)/display.c \
+		$(DISPLAY_PATH)/print_robot.c \
 		$(SRC_PATH)/main.c
 
 OBJ = $(SRC:.c=.o)
