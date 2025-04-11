@@ -25,7 +25,6 @@ int main(int argc, char **argv)
     maze = collect_maze_data(argv[1]);
     maze->matrice = def_matrice(maze->matrice->tab_link,
         maze->matrice->nb_room);
-    print_matrice(maze->matrice);
     if (!maze)
         return 84;
     if (display_parsing(maze) == 84)
