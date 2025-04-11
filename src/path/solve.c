@@ -56,12 +56,12 @@ queue_t *create_queue_for_bfs(node_t *start, int nb_rooms)
 
 bool *init_visited(int nb_rooms, int start_idx)
 {
-    bool *visited = NULL;
+    bool *visited = malloc(sizeof(bool) * nb_rooms);
 
-    visited = malloc(sizeof(bool) * (nb_rooms + 1));
     if (!visited)
         return NULL;
-    my_memset(visited, 0, sizeof(bool) * (nb_rooms + 1));
+    for (int i = 0; i < nb_rooms; i++)
+        visited[i] = false;
     visited[start_idx] = true;
     return visited;
 }
@@ -77,26 +77,38 @@ node_t **init_prev(int nb_rooms)
     return prev;
 }
 
-node_t **solve(room_t *rooms, node_t *start, matrice_t *matrice)
+static int init_bfs(bfs_init_t args, node_t **prev)
+{
+    args.bfs_data->node_tab = get_room_tab(args.rooms, args.matrice);
+    args.bfs_data->visited =
+        init_visited(args.rooms->nb_rooms, args.start->idx);
+    args.bfs_data->prev = prev;
+    args.bfs_data->matrice = args.matrice;
+    *(args.queue) = create_queue_for_bfs(args.start, args.rooms->nb_rooms);
+    if (!*(args.queue)) {
+        free(args.bfs_data->visited);
+        free(args.bfs_data->node_tab);
+        return 0;
+    }
+    return 1;
+}
+
+int solve(room_t *rooms, node_t *start, matrice_t *matrice, node_t **prev)
 {
     bfs_data_t bfs_data = {0};
     queue_t *queue = NULL;
-    node_t *node = NULL;
+    bfs_init_t args = {&bfs_data, &queue, rooms, matrice, start};
+    node_t *node;
 
-    if (!rooms || !matrice || !start)
-        return NULL;
-    bfs_data.node_tab = get_room_tab(rooms, matrice);
-    bfs_data.visited = init_visited(rooms->nb_rooms, start->idx);
-    bfs_data.prev = init_prev(rooms->nb_rooms);
-    bfs_data.matrice = matrice;
-    queue = create_queue_for_bfs(start, rooms->nb_rooms);
-    if (!queue)
-        return NULL;
+    if (!rooms || !matrice || !start || !prev)
+        return 0;
+    if (!init_bfs(args, prev))
+        return 0;
     while (!is_empty(queue)) {
         node = dequeue(queue);
         if (node)
             process_neighbours(node, queue, &bfs_data);
     }
     free_end_bfs(bfs_data, queue);
-    return bfs_data.prev;
+    return 1;
 }

@@ -91,22 +91,26 @@ static int reconstruct_path(node_t *start, node_t *end, node_t **prev,
     return count;
 }
 
-node_t **bfs(node_t *start, node_t *end, room_t *rooms, matrice_t *matrice)
+node_t **bfs(node_t *start, node_t *end, graph_t *graph)
 {
-    int path_length = 0;
-    node_t **path = malloc(sizeof(node_t *) * (rooms->nb_rooms + 1));
-    node_t **prev = NULL;
+    node_t **path = malloc(sizeof(node_t *) * (graph->rooms->nb_rooms + 1));
+    node_t **prev = malloc(sizeof(node_t *) * graph->rooms->nb_rooms);
 
-    if (!matrice || !rooms || !start || !path)
-        return NULL;
-    prev = solve(rooms, start, matrice);
-    if (!prev)
-        return 0;
-    if (!path) {
+    if (!graph || !graph->matrice || !graph->rooms ||
+        !start || !path || !prev) {
+        free(path);
         free(prev);
-        return 0;
+        return NULL;
     }
-    path_length = reconstruct_path(start, end, prev, path);
+    for (int i = 0; i < graph->rooms->nb_rooms; i++) {
+        prev[i] = NULL;
+    }
+    if (!solve(graph->rooms, start, graph->matrice, prev)) {
+        free(prev);
+        free(path);
+        return NULL;
+    }
+    reconstruct_path(start, end, prev, path);
     free(prev);
     return path;
 }
