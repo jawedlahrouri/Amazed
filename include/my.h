@@ -82,7 +82,7 @@ typedef struct bfs_data_s {
 /*Function*/
 
 // matrice handling
-void print_matrice(matrice_t *matrice);
+//void print_matrice(matrice_t *matrice);
 matrice_t *def_matrice(way_t **tab, int nb_room);
 int fill_matrice(matrice_t *matrice);
 void free_matrice(matrice_t *matrice, int nb_room);
