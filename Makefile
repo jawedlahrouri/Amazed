@@ -16,7 +16,7 @@ NC=\033[0m # No Color
 # Variables
 NAME	= amazed
 
-CFLAGS = -g -Wall -Wextra -W -Iinclude -Ilib/include -fdiagnostics-color=always
+CFLAGS = -Wall -Wextra -W -Iinclude -Ilib/include -fdiagnostics-color=always
 
 MATRICE_PATH	=	./src/matrice
 QUEUE_PATH		=	./src/queue_handle

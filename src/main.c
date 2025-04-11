@@ -23,10 +23,11 @@ int main(int argc, char **argv)
         return 84;
     }
     maze = collect_maze_data(argv[1]);
+    if (!maze || !maze->matrice->tab_link || !maze->room->end ||
+        !maze->room->start || !maze->room->rooms || maze->nb_robots <= 0)
+        return 84;
     maze->matrice = def_matrice(maze->matrice->tab_link,
         maze->matrice->nb_room);
-    if (!maze)
-        return 84;
     if (display_parsing(maze) == 84)
         return 84;
     cleanup_maze(maze);
